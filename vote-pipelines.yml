@@ -26,7 +26,7 @@ stages:
       displayName: Build an image
       inputs:
         containerRegistry: 'connectiondocker'
-        repository: 'bhargavqwertyuiop/vote'
+        repository: 'bhargavqwertyuiop/vote-app'
         command: 'buildAndPush'
         Dockerfile: '**/vote/Dockerfile'
         tags: '$(tag)'

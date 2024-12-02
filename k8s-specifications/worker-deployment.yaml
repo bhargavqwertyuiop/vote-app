@@ -15,5 +15,5 @@ spec:
         app: worker
     spec:
       containers:
-      - image: bhargavqwertyuiop/worker-app:100
+      - image: bhargavqwertyuiop/worker-app:101
         name: worker

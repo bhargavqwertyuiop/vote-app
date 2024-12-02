@@ -46,7 +46,7 @@ stages:
         git add .
 
         echo "Committing changes..."
-        git commit -m "Update image tag to ${Build.BuildId}"
+        git commit -m "Update image tag to $(Build.BuildId)"
 
         echo "Pushing changes..."
         git push https://bhargavqwertyuiop:${GIT_TOKEN}@github.com/bhargavqwertyuiop/vote-app.git HEAD:main

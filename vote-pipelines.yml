@@ -3,7 +3,9 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- main
+  paths:
+   include:
+     - vote/**
 
 resources:
 - repo: self
@@ -31,7 +33,7 @@ stages:
       
     - script: |
         echo "Updating image tag in deployment.yml..."
-        sed -i 's|image: .*|image: bhargavqwertyuiop/vote:${BUILD_BUILDID}|' k8s-specifications/vote-deployment.yaml
+        sed -i 's|image: .*|image: bhargavqwertyuiop/vote:$(BUILD.BUILDID)|' k8s-specifications/vote-deployment.yaml
 
         echo "Configuring Git user..."
         git config --global user.name 'bhargavqwertyuiop'
@@ -44,7 +46,7 @@ stages:
         git add .
 
         echo "Committing changes..."
-        git commit -m "Update image tag to ${BUILD_BUILDID}"
+        git commit -m "Update image tag to ${BUILD.BUILDID}"
 
         echo "Pushing changes..."
         git push https://bhargavqwertyuiop:${GIT_TOKEN}@github.com/bhargavqwertyuiop/vote-app.git HEAD:main

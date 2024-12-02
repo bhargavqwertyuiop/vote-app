@@ -13,9 +13,9 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
   GIT_TOKEN: $(GIT_TOKEN)  # Define your Git token as a pipeline variable
-  GIT_USER: 'bhargavqwertyuiop'
-  GIT_EMAIL: 'bhargavtejai123@gmail.com'
-  REPO_URL: 'https://$(GIT_USER):$(GIT_TOKEN)@github.com/bhargavqwertyuiop/vote-app.git'
+  GIT_USER: $(GIT_USER)
+  GIT_EMAIL: $(GIT_EMAIL)
+  REPO_URL: $(REPO_URL)
 
 stages:
 - stage: Build
@@ -41,6 +41,9 @@ stages:
         args: 'vote-app $(Build.BuildId) vote-deployment'
       env:
         GIT_TOKEN: $(GIT_TOKEN)
+        GIT_USER: $(GIT_USER)
+        GIT_EMAIL: $(GIT_EMAIL)
+        REPO_URL: $(REPO_URL)
 
       
             

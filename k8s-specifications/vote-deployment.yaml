@@ -15,7 +15,7 @@ spec:
         app: vote
     spec:
       containers:
-      - image: bhargavqwertyuiop/vote-app:95
+      - image: bhargavqwertyuiop/vote-app:97
         name: vote
         ports:
         - containerPort: 80

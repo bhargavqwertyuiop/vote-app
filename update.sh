@@ -10,7 +10,7 @@ git config --global user.name '$(GIT_USER)'
 git config --global user.email '$(GIT_EMAIL)'
 
 echo "Pulling latest changes..."
-git pull $(REPO_URL) HEAD:main
+git pull '$(REPO_URL)' HEAD:main
 
 echo "Adding updated files..."
 git add .
@@ -19,4 +19,4 @@ echo "Committing changes..."
 git commit -m "Update image tag to ${BUILD_ID}"
 
 echo "Pushing changes..."
-git push $(REPO_URL) HEAD:main
+git push '$(REPO_URL)' HEAD:main

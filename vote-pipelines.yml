@@ -15,7 +15,7 @@ variables:
   GIT_TOKEN: $(GIT_TOKEN)  # Define your Git token as a pipeline variable
   GIT_USER: $(GIT_USER)
   GIT_EMAIL: $(GIT_EMAIL)
-  REPO_URL: $(REPO_URL)
+  
 
 stages:
 - stage: Build
@@ -43,7 +43,7 @@ stages:
         GIT_TOKEN: $(GIT_TOKEN)
         GIT_USER: $(GIT_USER)
         GIT_EMAIL: $(GIT_EMAIL)
-        REPO_URL: $(REPO_URL)
+        
 
       
             

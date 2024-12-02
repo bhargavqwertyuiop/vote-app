@@ -12,6 +12,10 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
+  GIT_TOKEN: $(GIT_TOKEN)  # Define your Git token as a pipeline variable
+  GIT_USER: $(GIT_USER)
+  GIT_EMAIL: $(GIT_EMAIL)
+  REPO_URL: $(REPO_URL)
 
 stages:
 - stage: Build
@@ -31,28 +35,15 @@ stages:
         Dockerfile: '**/vote/Dockerfile'
         tags: '$(tag)'
       
-    - script: |
-        echo "Updating image tag in deployment.yml..."
-        sed -i 's|image: .*|image: bhargavqwertyuiop/vote:$(Build.BuildId)|' k8s-specifications/vote-deployment.yaml
-
-        echo "Configuring Git user..."
-        git config --global user.name 'bhargavqwertyuiop'
-        git config --global user.email 'bhargavtejai123@gmail.com'
-
-        echo "Pulling latest changes..."
-        git pull https://bhargavqwertyuiop:${GIT_TOKEN}@github.com/bhargavqwertyuiop/vote-app.git HEAD:main
-
-        echo "Adding updated files..."
-        git add .
-
-        echo "Committing changes..."
-        git commit -m "Update image tag to $(Build.BuildId)"
-
-        echo "Pushing changes..."
-        git push https://bhargavqwertyuiop:${GIT_TOKEN}@github.com/bhargavqwertyuiop/vote-app.git HEAD:main
-      displayName: 'Update Kubernetes Deployment'
+    - task: ShellScript@2
+      inputs:
+        scriptPath: 'update.sh'
+        args: 'vote-app $(Build.BuildId) vote-deployment'
       env:
         GIT_TOKEN: $(GIT_TOKEN)
+        GIT_USER: $(GIT_USER)
+        GIT_EMAIL: $(GIT_EMAIL)
+        REPO_URL: $(REPO_URL)
 
       
             

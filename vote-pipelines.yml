@@ -51,10 +51,13 @@ stages:
         echo "Pushing changes..."
         git push https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/vote-app.git HEAD:main
       displayName: 'Update Kubernetes Deployment'
+    
       env:
         GIT_TOKEN: $(GIT_TOKEN)
         GIT_USER: $(GIT_USER)
         GIT_EMAIL: $(GIT_EMAIL)
+
+    
 
       
             

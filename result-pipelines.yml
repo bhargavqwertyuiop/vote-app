@@ -55,6 +55,10 @@ stages:
         GIT_TOKEN: $(GIT_TOKEN)
         GIT_USER: $(GIT_USER)
         GIT_EMAIL: $(GIT_EMAIL)
+    
+    - task: ManualIntervention@7
+      inputs:
+        instructions: 'Waiting for approval from PM'
       
 
       

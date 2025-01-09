@@ -55,7 +55,15 @@ stages:
         GIT_TOKEN: $(GIT_TOKEN)
         GIT_USER: $(GIT_USER)
         GIT_EMAIL: $(GIT_EMAIL)
+      
 
       
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(Build.BinariesDirectory)'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        replaceExistingArchive: true
             
         

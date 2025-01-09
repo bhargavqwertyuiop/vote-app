@@ -15,7 +15,7 @@ spec:
         app: result
     spec:
       containers:
-      - image: bhargavqwertyuiop/result-app:123
+      - image: bhargavqwertyuiop/result-app:124
         name: result
         ports:
         - containerPort: 80

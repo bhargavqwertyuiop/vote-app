@@ -38,7 +38,7 @@ stages:
         echo "Configuring Git user..."
         git config --global user.name '$(GIT_USER)'
         git config --global user.email '$(GIT_EMAIL)'
-
+        git pull https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/vote-app.git HEAD:main
         echo "Pulling latest changes..."
         git pull https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/vote-app.git HEAD:main
 
@@ -47,7 +47,7 @@ stages:
 
         echo "Committing changes..."
         git commit -m "Update image tag to $(Build.BuildId)"
-
+        
         echo "Pushing changes..."
         git push https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/vote-app.git HEAD:main
       displayName: 'Update Kubernetes Deployment'

@@ -2,42 +2,95 @@
 <html ng-app="catsvsdogs">
   <head>
     <meta charset="utf-8">
-    <title>Cats vs Dogs -- Result</title>
+    <title>Cats vs Dogs - Live Results</title>
     <base href="/index.html">
-    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
-    <meta name="keywords" content="docker-compose, docker, stack">
-    <meta name="author" content="Docker">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="docker-compose, docker, stack, voting, results">
+    <meta name="author" content="Voting App Team">
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   </head>
-  <body ng-controller="statsCtrl" >
-     <div id="background-stats">
-       <div id="background-stats-1">
-       </div><!--
-      --><div id="background-stats-2">
-      </div>
-    </div>
-    <div id="content-container">
-      <div id="content-container-center">
-        <div id="choice">
-          <div class="choice cats">
-            <div class="label">Cats</div>
-            <div class="stat">{{aPercent | number:1}}%</div>
-          </div>
-          <div class="divider"></div>
-          <div class="choice dogs">
-            <div class="label">Dogs</div>
-            <div class="stat">{{bPercent | number:1}}%</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="result">
-      <span ng-if="total == 0">No votes yet</span>
-      <span ng-if="total == 1">{{total}} vote</span>
-      <span ng-if="total >= 2">{{total}} votes</span>
-    </div>
-    <script src="socket.io.js"></script>
-    <script src="angular.min.js"></script>
-    <script src="app.js"></script>
+  <body ng-controller="statsCtrl">
+    <div id="background-stats">
+      <div id="background-stats-1" ng-style="{width: aPercent + '%'}">
+      </div><!--
+     --><div id="background-stats-2" ng-style="{width: bPercent + '%'}">
+     </div>
+   </div>
+   
+   <div id="content-container">
+     <div id="content-container-center">
+       <div class="header">
+         <h1>🐱 vs 🐶</h1>
+         <h2>Live Voting Results</h2>
+         <p class="subtitle">Real-time democracy in action!</p>
+         <div class="connection-status" ng-class="{'connected': connected, 'disconnected': !connected}">
+           <i class="fa" ng-class="{'fa-wifi': connected, 'fa-exclamation-triangle': !connected}"></i>
+           <span ng-if="connected">Live Updates Active</span>
+           <span ng-if="!connected">Connection Lost</span>
+         </div>
+       </div>
+
+       <div class="results-container">
+         <div class="total-votes">
+           <div class="vote-counter">
+             <span class="count">{{a + b}}</span>
+             <span class="label">Total Votes</span>
+           </div>
+         </div>
+
+         <div class="vote-results">
+           <div class="result-item cats" ng-class="{'winner': aPercent > bPercent && (a + b) > 0}">
+             <div class="result-header">
+               <i class="fa fa-paw"></i>
+               <h3>Cats</h3>
+               <div class="percentage">{{aPercent | number:1}}%</div>
+             </div>
+             <div class="progress-bar">
+               <div class="progress-fill cats-fill" ng-style="{width: aPercent + '%'}"></div>
+             </div>
+             <div class="vote-count">{{a}} votes</div>
+           </div>
+
+           <div class="result-item dogs" ng-class="{'winner': bPercent > aPercent && (a + b) > 0}">
+             <div class="result-header">
+               <i class="fa fa-paw"></i>
+               <h3>Dogs</h3>
+               <div class="percentage">{{bPercent | number:1}}%</div>
+             </div>
+             <div class="progress-bar">
+               <div class="progress-fill dogs-fill" ng-style="{width: bPercent + '%'}"></div>
+             </div>
+             <div class="vote-count">{{b}} votes</div>
+           </div>
+         </div>
+
+         <div class="actions">
+           <a href="http://localhost:8080" class="vote-link">
+             <i class="fa fa-plus-circle"></i>
+             Cast Your Vote
+           </a>
+           <div class="refresh-info">
+             <i class="fa fa-refresh fa-spin" ng-if="updating"></i>
+             <span>Last updated: {{lastUpdate | date:'medium'}}</span>
+           </div>
+         </div>
+       </div>
+
+       <div class="stats-footer">
+         <div class="hostname">
+           <i class="fa fa-server"></i>
+           Served by: {{hostname}}
+         </div>
+       </div>
+     </div>
+   </div>
+
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+   <script src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.min.js"></script>
+   <script src="app.js"></script>
   </body>
 </html>

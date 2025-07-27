@@ -2,48 +2,119 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>{{option_a}} vs {{option_b}}!</title>
+    <title>Cats vs Dogs - Voting App</title>
     <base href="/index.html">
-    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
-    <meta name="keywords" content="docker-compose, docker, stack">
-    <meta name="author" content="Tutum dev team">
-    <link rel='stylesheet' href="{{ url_for('static',filename='stylesheets/style.css') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="docker-compose, docker, stack, voting">
+    <meta name="author" content="Voting App Team">
+    <link rel='stylesheet' href="/static/stylesheets/style.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="content-container">
       <div id="content-container-center">
-        <h3>{{option_a}} vs {{option_b}}!</h3>
-        <form id="choice" name='form' method="POST" action="/">
-          <button id="a" type="submit" name="vote" class="a" value="a">{{option_a}}</button>
-          <button id="b" type="submit" name="vote" class="b" value="b">{{option_b}}</button>
-        </form>
-        <div id="tip">
-          (Tip: you can change your vote)
+        <div class="header">
+          <h1>🐱 vs 🐶</h1>
+          <h2>Make Your Choice!</h2>
+          <p class="subtitle">Which pet is the ultimate companion?</p>
         </div>
-        <div id="hostname">
-          Processed by container ID {{hostname}}
+        
+        <div class="voting-container">
+          <form id="choice" name='form' method="POST" action="/">
+            <div class="vote-options">
+              <button id="a" type="submit" name="vote" class="vote-btn cats" value="a">
+                <div class="vote-content">
+                  <i class="fa fa-paw"></i>
+                  <span class="vote-text">Cats</span>
+                  <div class="vote-description">Independent & Mysterious</div>
+                </div>
+              </button>
+              
+              <div class="vs-divider">
+                <span>VS</span>
+              </div>
+              
+              <button id="b" type="submit" name="vote" class="vote-btn dogs" value="b">
+                <div class="vote-content">
+                  <i class="fa fa-paw"></i>
+                  <span class="vote-text">Dogs</span>
+                  <div class="vote-description">Loyal & Playful</div>
+                </div>
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="actions">
+          <a href="http://localhost:8081" class="results-link" target="_blank">
+            <i class="fa fa-bar-chart"></i>
+            View Live Results
+          </a>
+          <div class="vote-count" id="voteCount">
+            <span id="totalVotes">0</span> votes cast
+          </div>
+        </div>
+        
+        <div id="vote-feedback" class="vote-feedback hidden">
+          <div class="feedback-content">
+            <i class="fa fa-check-circle"></i>
+            <span>Thanks for voting!</span>
+          </div>
         </div>
       </div>
     </div>
-    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-    {% if vote %}
     <script>
-      var vote = "{{vote}}";
-
-      if(vote == "a"){
-        $(".a").prop('disabled', true);
-        $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');
-        $(".b").css('opacity','0.5');
-      }
-      if(vote == "b"){
-        $(".b").prop('disabled', true);
-        $(".b").html('{{option_b}} <i class="fa fa-check-circle"></i>');
-        $(".a").css('opacity','0.5');
-      }
+      // Enhanced voting experience
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('choice');
+        const feedback = document.getElementById('vote-feedback');
+        const voteButtons = document.querySelectorAll('.vote-btn');
+        
+        // Add hover effects and animations
+        voteButtons.forEach(button => {
+          button.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.05) translateY(-5px)';
+          });
+          
+          button.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1) translateY(0)';
+          });
+        });
+        
+        // Handle form submission with feedback
+        form.addEventListener('submit', function(e) {
+          const clickedButton = e.submitter;
+          
+          // Add loading state
+          clickedButton.style.opacity = '0.7';
+          clickedButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Voting...';
+          
+          // Show feedback after a short delay to simulate processing
+          setTimeout(() => {
+            feedback.classList.remove('hidden');
+            feedback.classList.add('show');
+            
+            // Hide feedback after 3 seconds
+            setTimeout(() => {
+              feedback.classList.remove('show');
+              feedback.classList.add('hidden');
+            }, 3000);
+          }, 500);
+        });
+        
+        // Update vote count (simulated)
+        function updateVoteCount() {
+          const count = Math.floor(Math.random() * 1000) + 100;
+          document.getElementById('totalVotes').textContent = count;
+        }
+        
+        updateVoteCount();
+        setInterval(updateVoteCount, 30000); // Update every 30 seconds
+      });
     </script>
-    {% endif %}
   </body>
 </html>
